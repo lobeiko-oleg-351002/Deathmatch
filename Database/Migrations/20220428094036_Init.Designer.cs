@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(DeathmatchDbContext))]
-    [Migration("20220419080030_init")]
-    partial class init
+    [Migration("20220428094036_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,18 @@ namespace Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("04f53320-61cb-4683-9b5d-f72925b69162"),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("df668d0c-21b0-4fa5-a9b7-4797b3841176"),
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("Models.Session", b =>

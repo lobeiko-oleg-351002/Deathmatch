@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Models;
+using QueryService.QueryModels;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,7 @@ namespace Deathmatch
             services.AddAutoMapper(typeof(Startup));
 
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddMediatR(typeof(GetAllRolesQuery).Assembly);
 
             services.AddScoped<ILogMessageManager<Location>, LogMessageManager<Location>>();
             services.AddScoped<ILocationRepository, LocationRepository>();
