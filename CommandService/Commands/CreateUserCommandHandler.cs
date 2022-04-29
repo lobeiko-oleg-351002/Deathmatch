@@ -8,7 +8,7 @@ using ViewModels.Create;
 
 namespace CommandService.Commands
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateSessionCommand, Unit>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Unit>
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ namespace CommandService.Commands
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(CreateSessionCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             await _userService.Create(_mapper.Map<UserCreateModel>(request));
             return Unit.Value;
