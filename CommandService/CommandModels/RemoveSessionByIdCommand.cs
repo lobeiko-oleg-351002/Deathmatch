@@ -3,11 +3,11 @@ using System;
 
 namespace CommandService.CommandModels
 {
-    public sealed class RemoveLocationByIdCommand : IRequest<Unit>
+    public sealed class RemoveSessionByIdCommand : IRequest<Unit>
     {
         public readonly Guid Id;
 
-        public RemoveLocationByIdCommand(Guid id)
+        public RemoveSessionByIdCommand(Guid id)
         {
             Id = id;
         }

@@ -6,7 +6,7 @@ namespace CommandService.CommandModels
     {
         public string Name { get; set; }
 
-        public byte[] Poster { get; set; }
-        public byte[] Binaries { get; set; }
+        public string LevelFilepath { get; set; }
+        public string PosterFilepath { get; set; }
     }
 }

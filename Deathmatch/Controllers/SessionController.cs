@@ -9,34 +9,33 @@ namespace Deathmatch.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class LocationController : ControllerBase
+    public class SessionController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public LocationController(IMediator mediator)
+        public SessionController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task CreateLocation(CreateLocationCommand cmd)
+        public async Task CreateSession(CreateSessionCommand cmd)
         {
             await _mediator.Send(cmd);
         }
 
-      //  [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _mediator.Send(new GetAllLocationsQuery());
+            var result = await _mediator.Send(new GetAllSessionsQuery());
             return Ok(result);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task RemoveLocation(Guid id)
+        public async Task RemoveSession(Guid id)
         {
-            await _mediator.Send(new RemoveLocationByIdCommand(id));
+            await _mediator.Send(new RemoveSessionByIdCommand(id));
         }
     }
 }
