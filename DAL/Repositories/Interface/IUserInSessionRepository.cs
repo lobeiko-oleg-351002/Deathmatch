@@ -10,6 +10,6 @@ namespace DAL.Repositories.Interface
     public interface IUserInSessionRepository : IRepository<UserInSession>
     {
         Task RemoveByUserId(Guid userId);
-        Task<List<UserInSession>> GetUsersInParticularSession(Session session);
+        Task<List<UserInSession>> GetUsersInParticularSession(Guid sessionId);
     }
 }

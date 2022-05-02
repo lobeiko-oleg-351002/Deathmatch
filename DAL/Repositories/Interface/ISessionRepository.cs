@@ -10,5 +10,6 @@ namespace DAL.Repositories.Interface
     public interface ISessionRepository : IRepository<Session>
     {
         Task<int> GetCurrentPlayerCountInSession(Guid sessionId);
+        new Task<Guid> Create(Session session);
     }
 }

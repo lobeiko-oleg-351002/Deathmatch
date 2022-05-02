@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using ViewModels.View;
 
 namespace CommandService.CommandModels
 {
@@ -8,8 +9,8 @@ namespace CommandService.CommandModels
 
         public int MaxPlayerCount { get; set; }
 
-        public virtual CreateLocationCommand Level { get; set; }
+        public virtual LocationViewModel Level { get; set; }
 
-        public virtual CreateUserCommand Host { get; set; }
+        public virtual UserViewModel Host { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace QueryService.Queries
         }
         public async Task<IList<UserInSessionViewModel>> Handle(GetUsersInParticularSessionQuery request, CancellationToken cancellationToken)
         {
-            return await _userInSessionService.GetUsersInParticularSession(request.Session);
+            return await _userInSessionService.GetUsersInParticularSession(request.SessionId);
         }
     }
 }

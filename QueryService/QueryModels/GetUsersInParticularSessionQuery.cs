@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using ViewModels.View;
 
@@ -6,11 +7,12 @@ namespace QueryService.QueryModels
 {
     public class GetUsersInParticularSessionQuery : IRequest<IList<UserInSessionViewModel>>
     {
-        public readonly SessionViewModel Session;
+        public readonly Guid SessionId;
 
-        public GetUsersInParticularSessionQuery(SessionViewModel session)
+        public GetUsersInParticularSessionQuery(Guid id)
         {
-            Session = session;
+            SessionId = id;
         }
+
     }
 }

@@ -10,6 +10,6 @@ namespace BLL.Services.Interface
 {
     public interface IUserInSessionService : IService<UserInSessionViewModel, UserInSessionCreateModel>
     {
-        Task<List<UserInSessionViewModel>> GetUsersInParticularSession(SessionViewModel session);
+        Task<List<UserInSessionViewModel>> GetUsersInParticularSession(Guid sessionId);
     }
 }

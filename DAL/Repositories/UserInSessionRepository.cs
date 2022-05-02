@@ -1,4 +1,5 @@
-﻿using DAL.Repositories.Interface;
+﻿using DAL.Exceptions;
+using DAL.Repositories.Interface;
 using DAL.Repositories.Logging;
 using Database;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +19,9 @@ namespace DAL.Repositories
 
         }
 
-        public async Task<List<UserInSession>> GetUsersInParticularSession(Session session)
+        public async Task<List<UserInSession>> GetUsersInParticularSession(Guid sessionId)
         {
-            var items = _context.UserInSessions.Where(item => item.Session.Id == session.Id);
+            var items = _context.UserInSessions.Where(item => item.Session.Id == sessionId);
             return await items.ToListAsync();
         }
 
@@ -31,6 +32,24 @@ namespace DAL.Repositories
             {
                 _context.Remove(itemToDelete);
                 await _context.SaveChangesAsync();
+            }
+        }
+
+        public override async Task Create(UserInSession entity)
+        {
+            try
+            {
+                entity.Id = new Guid();
+                _logMessageManager.LogEntityCreation(entity);
+                entity.User = await _context.Users.FirstOrDefaultAsync(user => user.Id == entity.User.Id);
+                entity.Session = await _context.Sessions.FirstOrDefaultAsync(session => session.Id == entity.Session.Id);
+                var result = await _context.Set<UserInSession>().AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logMessageManager.LogFailure(ex.Message);
+                throw new DalCreateException(ex.Message);
             }
         }
     }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using QueryService.QueryModels;
 using System;
 using System.Threading.Tasks;
+using ViewModels.View;
 
 namespace Deathmatch.Controllers
 {
@@ -36,6 +37,12 @@ namespace Deathmatch.Controllers
         public async Task RemoveSession(Guid id)
         {
             await _mediator.Send(new RemoveSessionByIdCommand(id));
+        }
+
+        [HttpPost]
+        public async Task RemoveUserFromSession(RemoveUserFromSessionCommand cmd)
+        {
+            await _mediator.Send(cmd);
         }
     }
 }

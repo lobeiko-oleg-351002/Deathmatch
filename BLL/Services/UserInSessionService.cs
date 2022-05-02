@@ -14,15 +14,14 @@ namespace BLL.Services
 {
     public class UserInSessionService : Service<UserInSession, UserInSessionViewModel, UserInSessionCreateModel>, IUserInSessionService
     {
-        public UserInSessionService(IRepository<UserInSession> repository, IMapper mapper) : base(repository, mapper)
+        public UserInSessionService(IUserInSessionRepository repository, IMapper mapper) : base(repository, mapper)
         {
             
         }
 
-        public async Task<List<UserInSessionViewModel>> GetUsersInParticularSession(SessionViewModel session)
+        public async Task<List<UserInSessionViewModel>> GetUsersInParticularSession(Guid sessionId)
         {
-            var entity = _mapper.Map<Session>(session);
-            var items = await (_repository as IUserInSessionRepository).GetUsersInParticularSession(entity);
+            var items = await (_repository as IUserInSessionRepository).GetUsersInParticularSession(sessionId);
             return _mapper.Map<List<UserInSessionViewModel>>(items);
         }
     }

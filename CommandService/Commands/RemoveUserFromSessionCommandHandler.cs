@@ -8,15 +8,15 @@ namespace CommandService.Commands
 {
     public class RemoveUserFromSessionCommandHandler : IRequestHandler<RemoveUserFromSessionCommand, Unit>
     {
-        private readonly IUserInSessionService _UserInSessionService;
-        public RemoveUserFromSessionCommandHandler(IUserInSessionService UserInSessionService)
+        private readonly ISessionService _sessionService;
+        public RemoveUserFromSessionCommandHandler(ISessionService sessionService)
         {
-            _UserInSessionService = UserInSessionService;
+            _sessionService = sessionService;
         }
 
         public async Task<Unit> Handle(RemoveUserFromSessionCommand request, CancellationToken cancellationToken)
         {
-            await _UserInSessionService.Delete(request.Id);
+            await _sessionService.RemoveUserFromSession(request.UserViewModel, request.SessionViewModel);
             return Unit.Value;
         }
     }

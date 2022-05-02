@@ -71,6 +71,14 @@ namespace Deathmatch
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleService, RoleService>();
 
+            services.AddScoped<ILogMessageManager<UserInSession>, LogMessageManager<UserInSession>>();
+            services.AddScoped<IUserInSessionRepository, UserInSessionRepository>();
+            services.AddScoped<IUserInSessionService, UserInSessionService>();
+
+            services.AddScoped<ILogMessageManager<Session>, LogMessageManager<Session>>();
+            services.AddScoped<ISessionRepository, SessionRepository>();
+            services.AddScoped<ISessionService, SessionService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo

@@ -3,6 +3,7 @@ using BLL.Services.Interface;
 using DAL.Repositories.Interface;
 using Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ViewModels.Create;
 using ViewModels.View;
@@ -25,17 +26,27 @@ namespace BLL.Services
             return entity;
         }
 
+        public override async Task<List<SessionViewModel>> GetAll()
+        {
+            var entities = await base.GetAll();
+            foreach (var entity in entities)
+            {
+                entity.CurrentPlayerCount = await (_repository as ISessionRepository).GetCurrentPlayerCountInSession(entity.Id);
+            }
+            return entities;
+        }
+
         public override async Task Create(SessionCreateModel entity)
         {
-            await _repository.Create(_mapper.Map<Session>(entity));
-            var hostInSession = _mapper.Map<UserInSession>(entity.Host);
+            var sessionId = await (_repository as ISessionRepository).Create(_mapper.Map<Session>(entity));
+            var hostInSession = new UserInSession { User = _mapper.Map<User>(entity.Host), Session = await _repository.Get(sessionId) };
             await _userInSessionRepository.Create(hostInSession);
         }
 
-        public async Task RemoveUserFromSession(UserInSessionViewModel user, SessionViewModel session)
+        public async Task RemoveUserFromSession(UserViewModel user, SessionViewModel session)
         {
             await _userInSessionRepository.RemoveByUserId(user.Id);
-            if (session.Host.Equals(user.User))
+            if (session.Host.Equals(user))
             {
                 await _repository.Delete(session.Id);
             }
