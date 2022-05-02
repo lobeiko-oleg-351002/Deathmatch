@@ -1,6 +1,8 @@
 using AppConfiguration;
 using BLL.Services;
 using BLL.Services.Interface;
+using CommandService;
+using CommandService.CommandModels;
 using DAL.Repositories;
 using DAL.Repositories.Interface;
 using DAL.Repositories.Logging;
@@ -18,6 +20,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Models;
+using QueryService;
+using QueryService.QueryModels;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -51,11 +55,17 @@ namespace Deathmatch
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+            services.RegisterCommandHandlers();
+            services.RegisterQueryHandlers();
 
             services.AddScoped<ILogMessageManager<Location>, LogMessageManager<Location>>();
             services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddScoped<ILocationService, LocationService>();
+
+            services.AddScoped<ILogMessageManager<User>, LogMessageManager<User>>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserValidationService, UserValidationService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<ILogMessageManager<Role>, LogMessageManager<Role>>();
             services.AddScoped<IRoleRepository, RoleRepository>();

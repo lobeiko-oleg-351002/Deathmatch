@@ -9,7 +9,7 @@ namespace ViewModels.Create
     public class LocationCreateModel : CreateModel
     {
         public string Name { get; set; }
-        public byte[] Poster { get; set; }
-        public byte[] Binaries { get; set; }
+        public string PosterFilepath { get; set; }
+        public string LevelFilepath { get; set; }
     }
 }

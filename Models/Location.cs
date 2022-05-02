@@ -13,8 +13,8 @@ namespace Models
         public string Name { get; set; }
 
         [Required]
-        public byte[] Poster { get; set; }
+        public string PosterFilepath { get; set; }
         [Required]
-        public byte[] Binaries { get; set; }
+        public string LevelFilepath { get; set; }
     }
 }

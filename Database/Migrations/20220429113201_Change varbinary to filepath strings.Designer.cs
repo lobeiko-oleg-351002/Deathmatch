@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(DeathmatchDbContext))]
-    [Migration("20220419080030_init")]
-    partial class init
+    [Migration("20220429113201_Change varbinary to filepath strings")]
+    partial class Changevarbinarytofilepathstrings
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,17 +27,17 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte[]>("Binaries")
+                    b.Property<string>("LevelFilepath")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Poster")
+                    b.Property<string>("PosterFilepath")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -57,6 +57,18 @@ namespace Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("350c43e5-cca7-4dd5-b89c-717b21aecf40"),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("3f2dad41-19be-41ce-b003-506ee66fb0cf"),
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("Models.Session", b =>

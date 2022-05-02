@@ -4,14 +4,16 @@ using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(DeathmatchDbContext))]
-    partial class DeathmatchDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220428094036_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,17 +27,17 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("LevelFilepath")
+                    b.Property<byte[]>("Binaries")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PosterFilepath")
+                    b.Property<byte[]>("Poster")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
@@ -59,12 +61,12 @@ namespace Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("350c43e5-cca7-4dd5-b89c-717b21aecf40"),
+                            Id = new Guid("04f53320-61cb-4683-9b5d-f72925b69162"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("3f2dad41-19be-41ce-b003-506ee66fb0cf"),
+                            Id = new Guid("df668d0c-21b0-4fa5-a9b7-4797b3841176"),
                             Name = "User"
                         });
                 });

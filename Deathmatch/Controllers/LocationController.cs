@@ -32,19 +32,11 @@ namespace Deathmatch.Controllers
             return Ok(result);
         }
 
-        //[HttpGet]
-        //[Route("{id}")]
-        //public async Task<IActionResult> Get(Guid id)
-        //{
-        //    var result = await _LocationService.Get(id);
-        //    return Ok(result);
-        //}
-
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateUser(LocationCreateModel LocationModel)
-        //{
-        //    var viewModel = await _LocationService.Update(LocationModel);
-        //    return Ok(viewModel);
-        //}
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task RemoveLocation(Guid id)
+        {
+            await _mediator.Send(new RemoveLocationByIdCommand(id));
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CommandService.CommandModels;
 using Models;
 using ViewModels.Create;
 using ViewModels.View;
@@ -11,6 +12,7 @@ namespace Deathmatch.Mapping
         {
             CreateMap<Location, LocationViewModel>();
             CreateMap<LocationCreateModel, Location>();
+            CreateMap<CreateLocationCommand, LocationCreateModel>();
         }
     }
 }
