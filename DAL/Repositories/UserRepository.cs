@@ -61,20 +61,6 @@ namespace DAL.Repositories
             throw ex;
         }
 
-        public override async Task Create(User entity)
-        {
-            try
-            {
-                _logMessageManager.LogEntityCreation(entity);
-                entity.Role = await _context.Roles.FirstOrDefaultAsync(role => role.Id == entity.Role.Id);
-                var result = await _context.Set<User>().AddAsync(entity);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logMessageManager.LogFailure(ex.Message);
-                throw new DalCreateException(ex.Message);
-            }
-        }
+
     }
 }

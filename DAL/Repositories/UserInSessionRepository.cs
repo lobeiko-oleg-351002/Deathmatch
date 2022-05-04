@@ -34,22 +34,5 @@ namespace DAL.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
-        public override async Task Create(UserInSession entity)
-        {
-            try
-            {
-                _logMessageManager.LogEntityCreation(entity);
-                entity.User = await _context.Users.FirstOrDefaultAsync(user => user.Id == entity.User.Id);
-                entity.Session = await _context.Sessions.FirstOrDefaultAsync(session => session.Id == entity.Session.Id);
-                var result = await _context.Set<UserInSession>().AddAsync(entity);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logMessageManager.LogFailure(ex.Message);
-                throw new DalCreateException(ex.Message);
-            }
-        }
     }
 }

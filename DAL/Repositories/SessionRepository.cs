@@ -27,8 +27,6 @@ namespace DAL.Repositories
             try
             {
                 _logMessageManager.LogEntityCreation(entity);
-                entity.Host = await _context.Users.FirstOrDefaultAsync(user => user.Id == entity.Host.Id);
-                entity.Level = await _context.Locations.FirstOrDefaultAsync(location => location.Id == entity.Level.Id);
                 var result = await _context.Set<Session>().AddAsync(entity);
                 await _context.SaveChangesAsync();
                 return entity.Id;

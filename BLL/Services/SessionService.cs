@@ -13,10 +13,15 @@ namespace BLL.Services
     public class SessionService : Service<Session, SessionViewModel, SessionCreateModel>, ISessionService
     {
         private readonly IUserInSessionRepository _userInSessionRepository;
-        public SessionService(ISessionRepository SessionRepository, IUserInSessionRepository userInSessionRepository, IMapper mapper)
+        private readonly IUserRepository _userRepository;
+        private readonly ILocationRepository _locationRepository;
+        public SessionService(ISessionRepository SessionRepository, IUserInSessionRepository userInSessionRepository, IUserRepository UserRepository,
+            ILocationRepository Locationepository, IMapper mapper)
             : base(SessionRepository, mapper)
         {
             _userInSessionRepository = userInSessionRepository;
+            _userRepository = UserRepository;
+            _locationRepository = Locationepository;
         }
 
         public override async Task<SessionViewModel> Get(Guid id)
@@ -38,8 +43,12 @@ namespace BLL.Services
 
         public override async Task Create(SessionCreateModel entity)
         {
-            var sessionId = await (_repository as ISessionRepository).Create(_mapper.Map<Session>(entity));
-            var hostInSession = new UserInSession { User = _mapper.Map<User>(entity.Host), Session = await _repository.Get(sessionId) };
+            var dalEntity = _mapper.Map<Session>(entity);
+            
+            dalEntity.Host = await _userRepository.Get(dalEntity.Host.Id);
+            dalEntity.Level = await _locationRepository.Get(dalEntity.Level.Id);
+            var sessionId = await (_repository as ISessionRepository).Create(dalEntity);
+            var hostInSession = new UserInSession { User = dalEntity.Host, Session = await _repository.Get(sessionId) };
             await _userInSessionRepository.Create(hostInSession);
         }
 

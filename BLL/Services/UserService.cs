@@ -13,11 +13,13 @@ namespace BLL.Services
     public class UserService : Service<User, UserViewModel, UserCreateModel>, IUserService
     {
         private readonly IUserValidationService _userValidationService;
+        private readonly IRoleRepository _roleRepository;
         //private readonly ICacheService _cacheService;
-        public UserService(IUserRepository UserRepository, IUserValidationService userValidationService, IMapper mapper) 
+        public UserService(IUserRepository UserRepository, IUserValidationService userValidationService, IRoleRepository roleRepository, IMapper mapper) 
             : base(UserRepository, mapper)
         {
             _userValidationService = userValidationService;
+            _roleRepository = roleRepository;
            // _cacheService = cacheService;
         }
 
@@ -37,8 +39,10 @@ namespace BLL.Services
 
         public override async Task Create(UserCreateModel entity)
         {
-            _userValidationService.ValidateNewUser(_mapper.Map<UserCreateModel>(entity));
-            await base.Create(entity);
+            _userValidationService.ValidateNewUser(entity);
+            var dalEntity = _mapper.Map<User>(entity);
+            dalEntity.Role = await _roleRepository.Get(dalEntity.Role.Id);
+            await _repository.Create(dalEntity);
            // _cacheService.Set(GetKey(result.Id.ToString()), result);
         }
 
