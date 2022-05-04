@@ -26,7 +26,6 @@ namespace DAL.Repositories
         {
             try
             {
-                entity.Id = new Guid();
                 _logMessageManager.LogEntityCreation(entity);
                 entity.Host = await _context.Users.FirstOrDefaultAsync(user => user.Id == entity.Host.Id);
                 entity.Level = await _context.Locations.FirstOrDefaultAsync(location => location.Id == entity.Level.Id);

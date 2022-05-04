@@ -65,7 +65,6 @@ namespace DAL.Repositories
         {
             try
             {
-                entity.Id = new Guid();
                 _logMessageManager.LogEntityCreation(entity);
                 entity.Role = await _context.Roles.FirstOrDefaultAsync(role => role.Id == entity.Role.Id);
                 var result = await _context.Set<User>().AddAsync(entity);

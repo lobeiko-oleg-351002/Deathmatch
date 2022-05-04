@@ -7,6 +7,7 @@ using DAL.Repositories;
 using DAL.Repositories.Interface;
 using DAL.Repositories.Logging;
 using Database;
+using Deathmatch.Middleware;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -118,6 +119,7 @@ namespace Deathmatch
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseSerilogRequestLogging();
             app.UseHttpsRedirection();
             app.UseSwagger();
