@@ -1,5 +1,6 @@
 ﻿using CommandService.CommandModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QueryService.QueryModels;
 using System;
@@ -20,12 +21,14 @@ namespace Deathmatch.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task CreateSession(CreateSessionCommand cmd)
         {
             await _mediator.Send(cmd);
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetAll()
         {
             var result = await _mediator.Send(new GetAllSessionsQuery());
@@ -34,12 +37,14 @@ namespace Deathmatch.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task RemoveSession(Guid id)
         {
             await _mediator.Send(new RemoveSessionByIdCommand(id));
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task RemoveUserFromSession(RemoveUserFromSessionCommand cmd)
         {
             await _mediator.Send(cmd);

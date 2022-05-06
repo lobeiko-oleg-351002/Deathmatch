@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QueryService.QueryModels;
 using System;
@@ -19,6 +20,7 @@ namespace Deathmatch.Controllers
 
         [HttpGet]
         [Route("{sessionId}")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> GetUsersInParticularSession(Guid sessionId)
         {
             var result = await _mediator.Send(new GetUsersInParticularSessionQuery(sessionId));
