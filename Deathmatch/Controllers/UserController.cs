@@ -38,5 +38,12 @@ namespace Deathmatch.Controllers
             var result = await _mediator.Send(new AuthorizeQuery(username, password));
             return Ok(result);
         }
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        public async Task RemoveUser(RemoveUserByIdCommand cmd)
+        {
+            await _mediator.Send(cmd);
+        }
     }
 }

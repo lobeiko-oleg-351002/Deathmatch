@@ -49,5 +49,12 @@ namespace Deathmatch.Controllers
         {
             await _mediator.Send(cmd);
         }
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        public async Task JoinSession(JoinSessionCommand cmd)
+        {
+            await _mediator.Send(cmd);
+        }
     }
 }
