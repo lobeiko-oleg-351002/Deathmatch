@@ -1,4 +1,5 @@
-﻿using DAL.Repositories.Interface;
+﻿using DAL.Exceptions;
+using DAL.Repositories.Interface;
 using DAL.Repositories.Logging;
 using Database;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +19,9 @@ namespace DAL.Repositories
 
         }
 
-        public async Task<List<UserInSession>> GetUsersInParticularSession(Session session)
+        public async Task<List<UserInSession>> GetUsersInParticularSession(Guid sessionId)
         {
-            var items = _context.UserInSessions.Where(item => item.Session.Id == session.Id);
+            var items = _context.UserInSessions.Where(item => item.Session.Id == sessionId);
             return await items.ToListAsync();
         }
 

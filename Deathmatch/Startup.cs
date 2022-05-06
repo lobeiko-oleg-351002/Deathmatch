@@ -1,4 +1,5 @@
 using AppConfiguration;
+using BLL.AuthTokens;
 using BLL.Services;
 using BLL.Services.Interface;
 using CommandService;
@@ -7,6 +8,7 @@ using DAL.Repositories;
 using DAL.Repositories.Interface;
 using DAL.Repositories.Logging;
 using Database;
+using Deathmatch.Middleware;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -71,6 +73,14 @@ namespace Deathmatch
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleService, RoleService>();
 
+            services.AddScoped<ILogMessageManager<UserInSession>, LogMessageManager<UserInSession>>();
+            services.AddScoped<IUserInSessionRepository, UserInSessionRepository>();
+            services.AddScoped<IUserInSessionService, UserInSessionService>();
+
+            services.AddScoped<ILogMessageManager<Session>, LogMessageManager<Session>>();
+            services.AddScoped<ISessionRepository, SessionRepository>();
+            services.AddScoped<ISessionService, SessionService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -101,6 +111,14 @@ namespace Deathmatch
                         }
                     });
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = AuthOptions.CreateValidationParameters();
+                });
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -110,6 +128,7 @@ namespace Deathmatch
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseSerilogRequestLogging();
             app.UseHttpsRedirection();
             app.UseSwagger();
@@ -123,12 +142,14 @@ namespace Deathmatch
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<JWTMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapRazorPages();
             });
         }
     }

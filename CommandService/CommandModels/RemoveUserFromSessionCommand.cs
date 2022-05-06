@@ -5,7 +5,8 @@ using ViewModels.View;
 namespace CommandService.CommandModels
 {
     public class RemoveUserFromSessionCommand : IRequest<Unit>
-    { 
-        public Guid Id { get; set; }
+    {
+        public UserViewModel UserViewModel { get; set; }
+        public SessionViewModel SessionViewModel { get; set; }
     }
 }

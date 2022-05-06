@@ -1,5 +1,6 @@
 ﻿using CommandService.CommandModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QueryService.QueryModels;
 using System;
@@ -19,12 +20,13 @@ namespace Deathmatch.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task CreateLocation(CreateLocationCommand cmd)
         {
             await _mediator.Send(cmd);
         }
 
-      //  [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -34,6 +36,7 @@ namespace Deathmatch.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task RemoveLocation(Guid id)
         {
             await _mediator.Send(new RemoveLocationByIdCommand(id));
