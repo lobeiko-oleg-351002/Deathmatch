@@ -1,5 +1,6 @@
 ﻿using CommandService.CommandModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QueryService.QueryModels;
 using System;
@@ -24,7 +25,7 @@ namespace Deathmatch.Controllers
             await _mediator.Send(cmd);
         }
 
-      //  [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

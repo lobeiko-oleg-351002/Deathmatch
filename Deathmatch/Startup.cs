@@ -1,4 +1,5 @@
 using AppConfiguration;
+using BLL.AuthTokens;
 using BLL.Services;
 using BLL.Services.Interface;
 using CommandService;
@@ -109,6 +110,13 @@ namespace Deathmatch
                             securityScheme, Array.Empty<string>()
                         }
                     });
+
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters = AuthOptions.CreateValidationParameters();
+                    });
             });
         }
 
@@ -133,12 +141,14 @@ namespace Deathmatch
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<JWTMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapRazorPages();
             });
         }
     }
